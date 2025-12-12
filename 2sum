@@ -1,0 +1,59 @@
+// java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer,Integer> c = new HashMap<>();
+        
+        for(int i = 0;i<nums.length;i++){
+            if(c.get(nums[i])!=null){
+                return new int[] {i,c.get(nums[i])};
+            }
+            else{
+                c.put(target-nums[i],i);
+            }
+        }
+        return null;
+
+        
+    }
+}
+
+//pytho
+class Solution(object):
+    def twoSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        d = {}
+        for i in range(len(nums)):
+            if nums[i] in d:
+                return [i, d[nums[i]]]
+            else:
+                d[target-nums[i]] = i
+        return []
+
+//cpp
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+
+        map<int,int> tracker;
+        vector<int> res;
+        for(int i = 0;i<size(nums);i++){
+            int d = target-nums[i];
+            if(tracker.contains(nums[i])){
+                res.push_back(tracker[nums[i]]);
+                res.push_back(i);
+                break;
+            }
+            else{
+                tracker[d] = i;
+            }
+
+        }
+        return res;
+        
+    }
+};
+    
