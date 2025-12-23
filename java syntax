@@ -1,0 +1,70 @@
+
+import java.util.Scanner;//for reader object
+import java.util.Arrays;// for array functions
+import java.util.List;// for list object
+import java.util.ArrayList;
+import java.util.Collections;
+//difference between arrayllist and list objects
+
+public class Main {
+    public static void main(String[] args) {
+        //reading object
+        Scanner scn = new Scanner(System.in);
+
+        //static array object definition
+        int[] n = new int[5];
+        String[] na = new String[5];
+
+        int[] nums = new int[5];
+        String[] strs = {"a", "b", "c"};
+
+        //reading array values.
+        System.out.println("\nreading values");
+        for (int i = 0; i < 5; i++) {
+            n[i] = scn.nextInt();
+        }
+        System.out.println("\nprinting the length");
+        System.out.println(n.length);//lenght of an array
+
+
+        //Array methods available in java.util.Arrays
+        System.out.println("\ndemonstrating toString function");
+        String arr = Arrays.toString(n);//to print array in the form it is
+        System.out.println(arr);
+
+        System.out.println("\ndemonstrating sort function");
+        Arrays.sort(n);//sorting ascending
+        System.out.println(Arrays.toString(n));
+
+        System.out.println("\ndemonstrating binarySearch function");
+        int idx = Arrays.binarySearch(n, 5);//binarySearch
+        System.out.println(idx);
+
+        System.out.println("\ndemonstrating copyOf function");
+        int[] nar = Arrays.copyOf(n, 2);
+        System.out.println(Arrays.toString(nar));
+
+        System.out.println("\ndemonstrating fill function");
+        Arrays.fill(nums, 7);
+        System.out.println(Arrays.toString(nums));
+
+        System.out.println("\ndemonstrating asList function");
+        List<String> ars = Arrays.asList(strs);
+        System.out.println(ars);
+        System.out.println(strs);
+        System.out.println(Arrays.equals(n, nums));
+
+        //dynamic arrays
+        ArrayList<Integer> lst = new ArrayList<>();
+        ArrayList<String> str = new ArrayList<>(100);//mentioning capacity to increase opimisation
+        ArrayList<String> quick = new ArrayList<>(List.of("a","b","c"));
+
+        System.out.println(lst.size());
+        lst.add(10);lst.add(20);//append
+        System.out.println("\n0th element: "+lst.get(0));//get method to access index
+        lst.set(0,100);System.out.println(lst);//set method to set value to index pos
+        Collections.sort(lst);System.out.println(lst);//collection sort function to sort array
+        lst.remove(0);System.out.println(lst);//remove method to remove element.
+
+    }
+}
