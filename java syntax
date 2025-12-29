@@ -149,3 +149,139 @@ Regex in java.
 Theres a format of string called regex.
 To represent “\n” in regex, it is represented a “\\n” . as “\” is a special character in regex. And to represent \n you need to say \ is a string here so \\.
 
+demonstration of string operations
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Main{
+
+    public static void main(String[] args) {
+        System.out.println("========== PART 1: STRING (IMMUTABLE) ==========");
+        demonstrateStringMethods();
+
+        System.out.println("\n========== PART 2: STRINGBUILDER (MUTABLE) ==========");
+        demonstrateStringBuilderMethods();
+
+        System.out.println("\n========== PART 3: PERFORMANCE (CONCATENATION) ==========");
+        demonstratePerformance();
+    }
+
+    // ---------------------------------------------------------
+    // PART 1: String Class Methods
+    // ---------------------------------------------------------
+    public static void demonstrateStringMethods() {
+        // 1. Creation
+        String str1 = "Hello World";            // String Pool
+        String str2 = new String("Hello World"); // Heap (Explicit new object)
+
+        // 2. Inspection
+        System.out.println("1. Length: " + str1.length());          // 11
+        System.out.println("2. Char at index 1: " + str1.charAt(1)); // 'e'
+        System.out.println("3. Is Empty? " + "".isEmpty());         // true
+        System.out.println("4. Is Blank? " + "   ".isBlank());      // true (Java 11+)
+
+        // 3. Comparison
+        // NEVER use == for strings! It checks memory address.
+        System.out.println("5. Equals: " + str1.equals(str2));           // true
+        System.out.println("6. Ignore Case: " + "java".equalsIgnoreCase("JAVA")); // true
+        System.out.println("7. CompareTo: " + "A".compareTo("B"));       // -1 (A is before B)
+
+        // 4. Searching
+        String sentence = "The quick brown fox";
+        System.out.println("8. Contains 'quick'? " + sentence.contains("quick")); // true
+        System.out.println("9. Starts with 'The'? " + sentence.startsWith("The")); // true
+        System.out.println("10. Index of 'o': " + sentence.indexOf("o"));        // 12 (First occurrence)
+        System.out.println("11. Last Index of 'o': " + sentence.lastIndexOf("o")); // 17
+
+        // 5. Modification (REMEMBER: Strings return a NEW string)
+        String messy = "   Java Programming   ";
+        System.out.println("12. Trimmed: '" + messy.trim() + "'");
+        System.out.println("13. Substring (5-end): " + messy.substring(5)); // "ava Programming   "
+        System.out.println("14. Replace: " + messy.replace("Java", "Python"));
+        System.out.println("15. UpperCase: " + messy.toUpperCase());
+
+        // 6. Splitting & Joining
+        String csv = "Apple,Banana,Cherry";
+        String[] fruits = csv.split(",");
+        System.out.println("16. Split Array: " + Arrays.toString(fruits));
+
+        String joined = String.join(" | ", "One", "Two", "Three");
+        System.out.println("17. Joined: " + joined);
+
+        // 7. Type Conversion
+        int number = 100;
+        String numStr = String.valueOf(number); // Converts int to "100"
+        char[] charArray = "Hi".toCharArray();
+        System.out.println("18. Char Array: " + Arrays.toString(charArray));
+    }
+
+    // ---------------------------------------------------------
+    // PART 2: StringBuilder Class Methods
+    // ---------------------------------------------------------
+    public static void demonstrateStringBuilderMethods() {
+        // 1. Creation
+        StringBuilder sb = new StringBuilder("Hello");
+
+        // 2. Appending (Adding to the end) - Efficient!
+        sb.append(" World");
+        sb.append(2024); // Can append numbers directly
+        System.out.println("1. After Append: " + sb); // Hello World2024
+
+        // 3. Insertion (Adding in the middle)
+        sb.insert(5, ","); // Insert comma at index 5
+        System.out.println("2. After Insert: " + sb); // Hello, World2024
+
+        // 4. Replacement
+        // Replace index 7 to 12 (exclusive) with "Java"
+        sb.replace(7, 12, "Java");
+        System.out.println("3. After Replace: " + sb); // Hello, Java2024
+
+        // 5. Deletion
+        sb.delete(11, 15); // Removes "2024"
+        System.out.println("4. After Delete: " + sb); // Hello, Java
+
+        // 6. Reversal (Very common interview trick)
+        sb.reverse();
+        System.out.println("5. After Reverse: " + sb); // avaJ ,olleH
+        sb.reverse(); // Flip it back
+
+        // 7. Capacity Management
+        // Internal array size before resizing is needed
+        System.out.println("6. Current Capacity: " + sb.capacity());
+        sb.ensureCapacity(100); // Pre-allocate memory to avoid resizing
+
+        // 8. Convert back to String
+        String finalResult = sb.toString();
+        System.out.println("7. Final String: " + finalResult);
+    }
+
+    // ---------------------------------------------------------
+    // PART 3: Performance Check
+    // ---------------------------------------------------------
+    public static void demonstratePerformance() {
+        // Scenario: Combining words in a loop
+
+        // BAD WAY: String Concatenation (+)
+        // Creates a new String object in EVERY iteration. O(N^2) complexity.
+        long start = System.nanoTime();
+        String s = "";
+        for (int i = 0; i < 1000; i++) {
+            s += "a";
+        }
+        long end = System.nanoTime();
+        System.out.println("String (+) Time: " + (end - start) + " ns");
+
+        // GOOD WAY: StringBuilder
+        // Modifies the same internal array. O(N) complexity.
+        start = System.nanoTime();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 1000; i++) {
+            sb.append("a");
+        }
+        end = System.nanoTime();
+        System.out.println("StringBuilder Time: " + (end - start) + " ns");
+
+        System.out.println("(Notice StringBuilder is significantly faster!)");
+    }
+}
