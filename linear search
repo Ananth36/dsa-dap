@@ -1,0 +1,42 @@
+// Python
+arr = [1,2,3,4,5]
+e = int(input("element: "))
+for i in range(len(arr)):
+    if arr[i] == e:
+        print("index",i)
+        break
+
+//java
+import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        int[] arr = {1,2,3,4,5};
+        Scanner scn =  new Scanner(System.in);
+        System.out.println("Element: ");
+        int e = scn.nextInt();
+        for(int i = 0;i<arr.length;i++){
+            if(arr[i] == e){
+                System.out.println("index is: "+i);
+                break;
+            }
+        }
+
+    }
+}
+
+//cpp
+#include <iostream>
+using namespace std;
+int main() {
+    int arr0[10] = {10,20,30,40,50};
+    int e;
+    cout<<"element: ";cin>>e;
+    for(int i =0;i<sizeof(arr0)/sizeof(int);i++){
+        if(arr0[i] == e){
+            cout<<"The index = "<<i;
+            break;
+        }
+    }
+    return 0;
+}
+
