@@ -1,33 +1,48 @@
-
 import java.util.Scanner;//for reader object
 import java.util.Arrays;// for array functions
 import java.util.List;// for list object
-import java.util.ArrayList;
-import java.util.Collections;
-//difference between arrayllist and list objects
+import java.util.ArrayList;//for dynamic arrays
+import java.util.Collections;//for sort
 
 public class Main {
     public static void main(String[] args) {
-        //reading object
+
+//reading object
         Scanner scn = new Scanner(System.in);
 
-        //static array object definition
+//data types
+        int a = 10; 
+        long b = 1000L; //l not compulsory, optional, compulsory if b = 1000_1000L;
+        double c = 232.6;
+        float d = 10.3f;// f compulsory
+        byte e = 120;
+        char m = '*';
+        boolean bo = false;// or true
+Use var, the compiler assumes datatype, once assumed cannot change it to another data type values
+        var m = 100;
+        var li = new int[10];
+        var lil = new ArrayList<Integer>();
+        final var x = 100;
+//typecasting from higher to lower. Lower to higher is automatic c = a;
+        int y = (int)c;
+
+//static array object definition
         int[] n = new int[5];
         String[] na = new String[5];
 
         int[] nums = new int[5];
         String[] strs = {"a", "b", "c"};
 
-        //reading array values.
+//reading array values.
         System.out.println("\nreading values");
         for (int i = 0; i < 5; i++) {
             n[i] = scn.nextInt();
         }
+
         System.out.println("\nprinting the length");
         System.out.println(n.length);//lenght of an array
 
-
-        //Array methods available in java.util.Arrays
+//Array methods available in java.util.Arrays
         System.out.println("\ndemonstrating toString function");
         String arr = Arrays.toString(n);//to print array in the form it is
         System.out.println(arr);
@@ -49,22 +64,88 @@ public class Main {
         System.out.println(Arrays.toString(nums));
 
         System.out.println("\ndemonstrating asList function");
-        List<String> ars = Arrays.asList(strs);
+        List<String> ars = Arrays.asList(strs);// String[] strs = {"a", "b", "c"};
         System.out.println(ars);
         System.out.println(strs);
         System.out.println(Arrays.equals(n, nums));
 
-        //dynamic arrays
+
+
+//dynamic arrays
         ArrayList<Integer> lst = new ArrayList<>();
-        ArrayList<String> str = new ArrayList<>(100);//mentioning capacity to increase opimisation
+        ArrayList<String> str = new ArrayList<>(100);//mentioning capacity to increase optimisation
         ArrayList<String> quick = new ArrayList<>(List.of("a","b","c"));
 
         System.out.println(lst.size());
-        lst.add(10);lst.add(20);//append
+        lst.add(80);lst.add(20);//append to end
+
         System.out.println("\n0th element: "+lst.get(0));//get method to access index
-        lst.set(0,100);System.out.println(lst);//set method to set value to index pos
+
+        lst.set(0,453);System.out.println(lst);//set method to set value to index pos
+
+        lst.add(0,1000);System.out.println("insert at 0"+lst);//to insert to first pos
         Collections.sort(lst);System.out.println(lst);//collection sort function to sort array
+        lst.sort(null);System.out.println(lst);//another way to sort.
         lst.remove(0);System.out.println(lst);//remove method to remove element.
 
     }
 }
+String pools in java
+In java when a string is declared, java checks if the string with the same value as to be declared exist. If such exists, then the new string points to the same memory location.
+The == operator only checks if the reference pointer is the same.
+String s1 = "Cat";
+String s2 = "Cat";              // Reuses s1's address from the Pool
+String s3 = new String("Cat");  // Forces a new object in Heap
+System.out.println(s1 == s2);       // true (Same memory address)
+System.out.println(s1 == s3);       // false (Different addresses)
+System.out.println(s1.equals(s3));  // true (Same content)
+
+Wrapper classes in java
+Autoboxing & Unboxing
+Modern Java automatically converts between them, but it comes at a slight performance cost.
+•	Autoboxing: int to Integer
+o	Integer x = 10; (Compiler actually does: Integer.valueOf(10))
+•	Unboxing: Integer to int
+o	int y = x; (Compiler actually does: x.intValue())
+
+ALWAYS use .equals() to compare Integer or String objects. Never rely on ==.
+Convert primitive array to dynamic array
+ArrayList<Integer> list = new ArrayList<>(); 
+for (int i : arr) {
+ list.add(i); // Auto-boxing happens here (int becomes Integer) }
+
+
+
+
+
+
+String functions
+Returns Boolean
+Str.equals(str2);
+Str.equalsIgnoreCase(str2);
+Str.isEmpty();
+Str.contains(str2);
+Str.startsWith(string);
+
+Returns number.
+Str.length();
+Str.chartAt(0);
+Str.indexOf(str);
+Str.lastIndexOf(str);
+
+Returns altered string
+Str.replace(old,new);//can be string or char
+Str.toLowerCase()
+Str.toUpperCase()
+Str.trim()
+Str.strip(“-”)
+Str.substring(begin,end);//end  is optional
+Str.repeat(6)
+Str.toCharArray();
+String.join(delimiter, itemslist)
+String.valueof(data)
+
+Regex in java.
+Theres a format of string called regex.
+To represent “\n” in regex, it is represented a “\\n” . as “\” is a special character in regex. And to represent \n you need to say \ is a string here so \\.
+
