@@ -1,0 +1,320 @@
+#include <iostream>  // For input/output (cin, cout)
+#include <vector>    // For dynamic arrays (std::vector)
+#include <algorithm> // For sort, binary_search, fill, etc.
+#include <string>    // For string object
+#include <numeric>   // For specialized numeric operations
+
+using namespace std; // To avoid typing std:: before every command
+
+int main() {
+    // Input/Output objects
+    // cin replaces Scanner
+    
+    // Data Types
+    int a = 10;
+    long long b = 1000LL; // 'LL' ensures it's treated as long long
+    double c = 232.6;
+    float d = 10.3f;      // 'f' compulsory for float literals
+    char m = '*';
+    bool bo = false;      // or true
+
+    // Type Inference (auto replaces var)
+    // Compiler deduces type at compile time
+    auto x = 100;         // int
+    auto li = new int[10];// int* (pointer)
+    // auto lil = new vector<int>(); // Not common in C++, usually just: vector<int> lil;
+    
+    // Constants (const replaces final)
+    const int VAL = 100;
+    
+    // Typecasting
+    // C-style (Like Java):
+    int y = (int)c;
+    // C++-style (Safer, recommended):
+    int z = static_cast<int>(c);
+
+    // Static Arrays
+    int n[5];                  // Raw array
+    string strs[] = {"a", "b", "c"};
+    int nums[5];
+
+    // Reading array values
+    cout << "\nreading values" << endl;
+    for (int i = 0; i < 5; i++) {
+        cin >> n[i];
+    }
+
+    // Array Length
+    // For raw arrays, C++ doesn't store length. You must calculate it or track it.
+    int len = sizeof(n) / sizeof(n[0]); 
+    cout << "\nLength: " << len << endl;
+
+    // Array Algorithms (from <algorithm>)
+    // C++ uses iterators (begin, end) or pointers (start, start + size)
+    
+    // Sorting
+    cout << "\ndemonstrating sort function" << endl;
+    sort(n, n + 5); // Sorts range [start, end)
+    
+    // Printing (No direct Arrays.toString, must loop)
+    for(int x : n) cout << x << " "; 
+    cout << endl;
+
+    // Binary Search
+    cout << "\ndemonstrating binarySearch function" << endl;
+    // Returns bool (true/false)
+    bool found = binary_search(n, n + 5, 5); 
+    cout << found << endl;
+    
+    // To get the index (like Java), use lower_bound
+    auto it = lower_bound(n, n + 5, 5);
+    if (it != n + 5 && *it == 5) {
+        cout << "Index: " << (it - n) << endl;
+    }
+
+    // Fill function
+    cout << "\ndemonstrating fill function" << endl;
+    fill(nums, nums + 5, 7); // Fills range with 7
+
+    // Equality check
+    // equal(start1, end1, start2)
+    bool areEqual = equal(n, n + 5, nums); 
+    cout << areEqual << endl;
+
+
+    // ---------------------------------------------------------
+    // Dynamic Arrays (std::vector replaces ArrayList)
+    // ---------------------------------------------------------
+    vector<int> lst;
+    // capacity optimization (reserve replaces constructor arg)
+    vector<string> str; 
+    str.reserve(100); 
+    
+    // Initialization with values
+    vector<string> quick = {"a", "b", "c"};
+
+    cout << lst.size() << endl; // Size
+    
+    // Append
+    lst.push_back(80); 
+    lst.push_back(20);
+
+    // Access (get)
+    cout << "\n0th element: " << lst[0] << endl; // or lst.at(0) for safety
+
+    // Modify (set)
+    lst[0] = 453; 
+    
+    // Insert at specific position (slower than push_back)
+    // lst.begin() is iterator to start
+    lst.insert(lst.begin(), 1000); // Insert at index 0
+
+    // Sorting vector
+    sort(lst.begin(), lst.end());
+
+    // Remove element
+    lst.erase(lst.begin()); // Remove at index 0
+    
+    // Remove by value (idiom: remove-erase)
+    // auto new_end = remove(lst.begin(), lst.end(), 80);
+    // lst.erase(new_end, lst.end());
+
+    return 0;
+}
+String Behavior in C++ vs Java
+1. String Pooling? No. In C++, std::string objects are mutable (changeable).
+•	When you say string s1 = "Cat"; string s2 = "Cat";, C++ creates two distinct objects with their own memory.
+•	Modifying s1 will not affect s2.
+2. Equality Operator (==) In C++, == is overloaded to compare content.
+•	You SHOULD use == in C++.
+•	You don't need .equals().
+C++
+string s1 = "Cat";
+string s2 = "Cat";
+// In C++, this compares the CHARACTERS, not the address.
+if (s1 == s2) { 
+    cout << "They are equal"; // This prints!
+}
+3. Primitive vs Wrapper (Int vs Integer) C++ does not have "Wrapper Classes" like Integer, Double, etc.
+•	Generics (Templates) in C++ work with primitives directly.
+•	vector<int> is perfectly valid and efficient.
+•	There is no "Autoboxing" overhead.
+
+#include <iostream>
+#include <iomanip> // CRITICAL: Required for setw, setprecision, setfill
+
+using namespace std;
+
+int main() {
+    // ---------------------------------------------------------
+    // 1. Boolean Formatting (boolalpha)
+    // ---------------------------------------------------------
+    bool isCodingFun = true;
+    bool isEasy = false;
+
+    cout << "--- 1. Boolean Formatting ---" << endl;
+    cout << "Default: " << isCodingFun << ", " << isEasy << endl; // Prints 1, 0
+    
+    // Enable "true"/"false" output
+    cout << boolalpha; 
+    cout << "With boolalpha: " << isCodingFun << ", " << isEasy << endl; // Prints true, false
+    
+    // Restore default (optional)
+    cout << noboolalpha;
+
+
+    // ---------------------------------------------------------
+    // 2. Width and Alignment (setw, left, right)
+    // ---------------------------------------------------------
+    cout << "\n--- 2. Width & Alignment ---" << endl;
+    
+    // setw(n) only affects the IMMEDIATE next output
+    cout << "Default (Right Aligned):" << endl;
+    cout << "|" << setw(10) << "ID" << "|" << setw(10) << "Name" << "|" << endl;
+    cout << "|" << setw(10) << 101 << "|" << setw(10) << "Alice" << "|" << endl;
+
+    cout << "\nLeft Aligned:" << endl;
+    cout << left; // This setting is "sticky" (stays until changed)
+    cout << "|" << setw(10) << "ID" << "|" << setw(10) << "Name" << "|" << endl;
+    cout << "|" << setw(10) << 101 << "|" << setw(10) << "Alice" << "|" << endl;
+    
+    // Reset to right for next section
+    cout << right; 
+
+
+    // ---------------------------------------------------------
+    // 3. Floating Point Precision (fixed, setprecision)
+    // ---------------------------------------------------------
+    double pi = 3.1415926535;
+    double money = 120.5;
+
+    cout << "\n--- 3. Precision ---" << endl;
+    
+    // General Precision (Total number of digits, before and after dot)
+    cout << "Default: " << pi << endl;
+    cout << "setprecision(4): " << setprecision(4) << pi << endl; // 3.142 (Rounded)
+
+    // Fixed Precision (Digits AFTER the decimal point)
+    // Commonly used for currency
+    cout << fixed << setprecision(2); 
+    cout << "Fixed + Precision(2) (Money): " << money << endl; // 120.50
+    cout << "Fixed + Precision(2) (Pi):    " << pi << endl;    // 3.14
+
+
+    // ---------------------------------------------------------
+    // 4. Filling Empty Space (setfill)
+    // ---------------------------------------------------------
+    cout << "\n--- 4. Set Fill ---" << endl;
+    // Useful for dates (e.g., 01/05/2024 instead of 1/5/2024)
+    
+    int day = 5;
+    int month = 9;
+    
+    cout << "Date: ";
+    cout << setfill('0') << setw(2) << day << "/" 
+         << setw(2) << month << "/2024" << endl;
+
+    return 0;
+}
+
+#include <iostream>
+#include <string>
+#include <algorithm> // For reverse()
+
+using namespace std;
+
+int main() {
+    cout << "=== 1. CREATION & ITERATORS ===" << endl;
+    string str = "Hello World";
+    
+    // Using Iterators to print
+    cout << "Iterating: ";
+    for (auto it = str.begin(); it != str.end(); ++it) {
+        cout << *it << "-";
+    }
+    cout << endl; // Output: H-e-l-l-o- -W-o-r-l-d-
+
+    cout << "\n=== 2. CAPACITY & SIZE ===" << endl;
+    cout << "String: " << str << endl;
+    cout << "Length: " << str.length() << endl;   // 11
+    cout << "Capacity: " << str.capacity() << endl; // Internal storage size
+    cout << "Is Empty? " << (str.empty() ? "Yes" : "No") << endl;
+
+    str.resize(5); // Shrink string to 5 chars
+    cout << "After resize(5): " << str << endl; // "Hello"
+
+    cout << "\n=== 3. MODIFIERS (Changing Content) ===" << endl;
+    // Append
+    str.append(" C++"); 
+    cout << "Append: " << str << endl; // "Hello C++"
+
+    // Push Back (Add single char)
+    str.push_back('!'); 
+    cout << "Push Back: " << str << endl; // "Hello C++!"
+
+    // Insert
+    str.insert(6, "Modern "); 
+    cout << "Insert: " << str << endl; // "Hello Modern C++!"
+
+    // Replace (Start index, Length to remove, New String)
+    str.replace(6, 6, "Beautiful"); 
+    cout << "Replace: " << str << endl; // "Hello Beautiful C++!"
+
+    // Erase (Start index, Length to remove)
+    str.erase(0, 6); 
+    cout << "Erase: " << str << endl; // "Beautiful C++!"
+
+    cout << "\n=== 4. ACCESS & SEARCH ===" << endl;
+    // Access
+    cout << "First char: " << str.front() << endl;
+    cout << "Last char: " << str.back() << endl;
+    cout << "Char at index 2: " << str.at(2) << endl; // Safe access
+
+    // Search (Find)
+    string searchTarget = "C++";
+    size_t foundPos = str.find(searchTarget);
+    
+    // Check against string::npos (which means "Not Found")
+    if (foundPos != string::npos) {
+        cout << "'C++' found at index: " << foundPos << endl;
+    } else {
+        cout << "Not found!" << endl;
+    }
+
+    // Substring (Start, Length)
+    string sub = str.substr(0, 9); 
+    cout << "Substring (0,9): " << sub << endl; // "Beautiful"
+
+    cout << "\n=== 5. COMPARISON ===" << endl;
+    string s1 = "Apple";
+    string s2 = "Banana";
+    
+    // Using compare()
+    // Returns 0 if equal, <0 if s1 is smaller, >0 if s1 is larger
+    int result = s1.compare(s2);
+    if (result < 0) cout << s1 << " comes before " << s2 << endl;
+    
+    // Using operators (Easier/Preferred in C++)
+    if (s1 != s2) cout << "Operators work too!" << endl;
+
+    cout << "\n=== 6. CONVERSIONS (Numbers <-> Strings) ===" << endl;
+    // Number to String
+    int num = 42;
+    string numStr = to_string(num);
+    cout << "Int to String: " << numStr + " is the answer." << endl;
+
+    // String to Number
+    string piStr = "3.14159";
+    double pi = stod(piStr); // String TO Double
+    int wholePi = stoi(piStr); // String TO Int (truncates decimal)
+    
+    cout << "String to Double: " << pi << endl;
+    cout << "String to Int: " << wholePi << endl;
+
+    cout << "\n=== 7. LEGACY C-STYLE STRINGS ===" << endl;
+    // Getting a raw "const char*" for C-APIs
+    const char* rawArr = str.c_str();
+    printf("Printing via C-style printf: %s\n", rawArr);
+
+    return 0;
+}
