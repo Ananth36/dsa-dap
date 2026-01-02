@@ -1,0 +1,136 @@
+#python
+#merge sort
+
+arr = eval(input("List: "))
+
+def mergeSort(arr):
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr)//2
+    l = arr[:mid]
+    r = arr[mid:]
+    l=  mergeSort(l)
+    r = mergeSort(r)
+    return merge(l,r)
+def merge(l,r):
+    res = []
+    ir,il = 0,0
+    while il<len(l) and ir<len(l):
+        if l[il]<r[ir]:
+            res.append(l[il])
+            il+=1
+        else:
+            res.append(r[ir])
+            ir+=1
+    if il >= len(l):
+        res.extend(r[ir:])
+    else:
+        res.extend(l[il:])
+    return res
+
+print(mergeSort(arr))
+
+
+
+//java
+
+
+import java.util.Arrays;
+public class Main{
+    public static int[] mergeSort(int[] arr){
+        if (arr.length == 1){return arr;}
+
+        int end = arr.length,begin = 0;
+        int mid = (end)/2;
+        int[] l = mergeSort(Arrays.copyOfRange(arr,begin,mid));
+        int[] r = mergeSort(Arrays.copyOfRange(arr,mid,end));
+        return merge(l,r);
+    }
+    private static int[] merge(int[] l,int[] r){
+        int[] arr = new int[l.length+r.length];
+        int a=0,b=0,c = 0;
+        while(a!=l.length && b!=r.length){
+            if(l[a]<r[b]){
+                arr[c] = l[a];
+                c++;a++;
+            }
+            else{
+                arr[c] = r[b];
+                c++;b++;
+            }
+        }
+        if(a == l.length){
+            for(int i = b;i<r.length;i++){
+                arr[c] = r[i];
+                c++;
+            }
+        }
+        else{
+            for(int i = a;i<l.length;i++){
+                arr[c] = l[i];
+                c++;
+            }
+        }
+        return arr;
+    }
+
+    public static void main(String[] args){
+        int arr[] = {5,4,5,2,7,5};
+        System.out.println(Arrays.toString(arr));
+        int a[] = mergeSort(arr);
+        System.out.println(Arrays.toString(a));
+    }
+}
+
+
+//cpp
+#include<iostream>
+#include<vector>
+
+#include<algorithm>//for sort and binary search
+using namespace::std;
+
+vector<int> merge(vector<int> l, vector<int> r){
+    vector<int> res;
+    int ir = 0,il = 0;
+    while(il<l.size() && ir<r.size()){
+        if(l[il]<r[ir]){
+            res.push_back(l[il]);
+            il++;
+        }
+        else{
+            res.push_back(r[ir]);
+            ir++;
+        }
+    }
+    if(il == l.size()){
+        res.insert(res.end(),r.begin()+ir,r.end());
+    }
+    else{
+        res.insert(res.end(),l.begin()+il,l.end());
+    }
+    return res;
+
+}
+
+vector<int> mergeSort(vector<int> arr){
+    if(arr.size()<=1){return arr;}
+    int mid = (int)(arr.size()/2);
+    vector<int> l (arr.begin(),arr.begin()+mid);
+    vector<int> r (arr.begin()+mid,arr.end());
+    vector<int> lr = mergeSort(l);
+    vector<int> rr = mergeSort(r);
+    vector<int> res = merge(lr,rr);
+    return res;
+}
+
+
+int main(){
+
+    vector<int> arr = {5,4,2,9,8,7,1};
+    vector<int> res = mergeSort(arr);
+    for(int i =0;i<res.size();i++){
+        cout<<res[i]<<" ";
+    }
+    return 0;
+}
