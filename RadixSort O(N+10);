@@ -1,0 +1,143 @@
+//java
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.lang.Math;
+public class Main{
+    public static int max(int[] arr){
+        int x = arr[0];
+        for(int i:arr){
+            if(x<i){x = i;}
+        }
+        return x;
+    }
+    public static int min(int[] arr){
+        int x = arr[0];
+        for(int i:arr){
+            if(x>i){x = i;}
+        }
+        return x;
+    }
+
+    static int[] radixSort(int[] arr){
+        int ex = 0;
+        int ul = max(arr);
+
+        while(ul/Math.pow(10,ex) >= 1){
+            int[] digits = new int[arr.length];
+            for(int i = 0;i<arr.length;i++){
+                int digit =(int)(arr[i]/Math.pow(10,ex)) % 10;
+                digits[i] = digit;
+            }
+            int mn = min(digits);
+            int[] count = new int[max(digits)-mn+1];
+            Arrays.fill(count,0);
+            for(int i = 0;i<arr.length;i++){
+                count[digits[i]-mn]+=1;
+            }
+            for(int i = 1;i<count.length;i++){
+                count[i] +=count[i-1];
+            }
+            for(int i = count.length-1;i>0;i--){
+                count[i] = count[i-1];
+            }
+
+            count[0] = 0;
+            int[] res = new int[arr.length];
+            for(int i = 0;i<res.length;i++){
+                res[count[digits[i]-mn]] = arr[i];
+                count[digits[i]-mn]+=1;
+            }
+            arr= res;
+            ex++;
+        }
+
+        return arr;
+    }
+    public static void main(String[] args){
+        int [] arr = {123,1211,232,41223,23};
+        int[] res = radixSort(arr);
+        System.out.println(Arrays.toString(res));
+
+    }
+}
+
+//python
+def radixSort(arr):
+   mx = max(arr)
+   ex = 0
+
+   while mx // (10**ex) >0:
+       digits = [(i//(10**(ex)))%(10) for i in arr]
+       mn = min(digits)
+       count = [0]*(max(digits)-mn+1)
+       for i in digits:
+           count[i-mn]+=1
+       for i in range(1,len(count)):
+           count[i] += count[i-1]
+       for i in range(len(count)-1,0,-1):
+           count[i] = count[i-1]
+       count[0] = 0
+       res = [0]*len(digits)
+       for i in range(len(digits)):
+           res[count[digits[i]-mn]] = arr[i]
+           count[digits[i]-mn]+=1
+       ex+=1
+       arr = res
+   return arr
+
+print(radixSort([5323,2432,4444,6753,234]))
+
+                 
+//cpp
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+
+
+vector<int> radixSort(vector<int> arr){
+    int mx = *max_element(arr.begin(),arr.end());
+    int ex = 0;
+
+    while((mx/pow(10,ex))>=1){
+        vector<int>digits(arr.size());
+        for(int i = 0;i<arr.size();i++){
+            int degree = (int)(arr[i]/(pow(10,ex)));
+            int digit = degree%10;
+            digits[i] = digit;
+        }
+        int max = *max_element(digits.begin(),digits.end());
+        int min = *min_element(digits.begin(),digits.end());
+        vector<int> count(max-min+1);
+        for(int i:digits){
+            count[i-min] +=1;
+        }
+        for(int i = 1;i<count.size();i++){
+            count[i] += count[i-1];
+        }
+        for(int i =count.size()-1;i>0;i--){
+            count[i] = count[i-1];
+        }
+        count[0] = 0;
+        vector<int> res(arr.size());
+        for(int i = 0;i<arr.size();i++){
+            res[count[digits[i]-min]] = arr[i];
+            count[digits[i]-min]+=1;
+        }
+        arr = res;
+        ex+=1;
+    }
+
+    return arr;
+}
+
+int main(){
+    vector<int> arr = {32342,121,12133};
+    vector<int> res = radixSort(arr);
+    for(int i = 0;i<res.size();i++){
+        cout<<res[i]<<endl;
+    }
+    return 0;
+}
