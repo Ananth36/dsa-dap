@@ -1,0 +1,48 @@
+//python
+def inSort(arr,s,e):
+    for i in range(s+1,e):
+        key = arr[i]
+        j = i-1
+        while j >= s and arr[j] > key:
+            arr[j+1] = arr[j]
+            j-=1
+        arr[j+1] = key
+
+
+def merge(arr,s,m,e):
+    l = arr[s:m]
+    r = arr[m:e]
+    i,j = 0,0
+    x = s
+    while i<len(l) and j<len(r):
+        if l[i]>r[j]:
+            arr[x] = r[j]
+            x+=1
+            j+=1
+        else:
+            arr[x] = l[i]
+            x+=1
+            i+=1
+    if i == len(l):
+        for v in r[j:]:
+            arr[x] = v
+            x+=1
+    else:
+        for v in l[i:]:
+            arr[x] = v
+            x+=1
+
+def timsort(arr):
+    runsize = 4
+    for i in range(0,len(arr),runsize):
+        inSort(arr,i,min(i+runsize,len(arr)))
+    size = runsize
+    while size<len(arr):
+        for l in range(0,len(arr),2*size):
+            m = min(l+size,len(arr))
+            r = min(l+2*size,len(arr))
+            merge(arr,l,m,r)
+        size*=2
+arr = [5,4,3,2,1]
+timsort(arr)
+print(arr)
