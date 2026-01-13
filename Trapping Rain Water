@@ -1,0 +1,70 @@
+class Solution {
+    public int trap(int[] height) {
+        int max = 0;
+        for(int i = 0;i<height.length;i++){
+            if(height[max]<height[i]){
+                max = i;
+            }
+        }
+        int cont = 0;
+        int maxint = height[0];
+        for(int i = 1;i<max;i++){
+            if(height[i]>maxint){maxint = height[i];}
+            else{cont+=maxint-height[i];}
+        }
+        maxint = height[height.length-1];
+        for(int i = height.length-2;i>max;i--){
+            if(height[i]>maxint){maxint = height[i];}
+            else{cont+=maxint-height[i];}
+        }
+        return cont;
+    }
+}
+
+
+class Solution(object):
+    def trap(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        mx = height.index(max(height))
+        ct = 0
+        maxint = 0
+        for i in range(1,mx):
+            if height[i]>height[maxint]:
+                maxint = i
+            else:
+                ct+=height[maxint]-height[i]
+        maxint = len(height)-1
+        for i in range(len(height)-1,mx,-1):
+            if height[i]>height[maxint]:
+                maxint = i
+            else:
+                ct+=height[maxint]-height[i]
+        return ct
+
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int max = 0;
+        for(int i =1;i<height.size();i++){
+            if(height[max]<height[i]){
+                max = i;
+            }
+        }
+        int ct = 0;
+        int maxint = 0;
+        for(int i =1;i<max;i++){
+            if(height[i]>height[maxint]){maxint = i;}
+            else{ct+=height[maxint]-height[i];}
+        }
+        maxint = height.size()-1;
+        for(int i = height.size()-1;i>max;i--){
+            if(height[i]>height[maxint]){maxint = i;}
+            else{ct+=height[maxint]-height[i];}
+        }
+        return ct;
+    }
+};
