@@ -25,3 +25,49 @@ public:
 
     }
 };
+
+
+import java.util.*;
+
+class Solution {
+
+    public String srt(String s) {
+        char[] arr = s.toCharArray();
+        Arrays.sort(arr);
+        return new String(arr);
+    }
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+
+        HashMap<String, List<String>> rec = new HashMap<>();
+
+        for (int i = 0; i < strs.length; i++) {
+            String srr = srt(strs[i]);
+
+            if (rec.containsKey(srr)) {
+                rec.get(srr).add(strs[i]);
+            } else {
+                List<String> arr = new ArrayList<>();
+                arr.add(strs[i]);
+                rec.put(srr, arr);
+            }
+        }
+
+        return new ArrayList<>(rec.values());
+    }
+}
+
+class Solution(object):
+    def groupAnagrams(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        """
+        d = {}
+        for i in strs:
+            r = ''.join(sorted([j for j in i]))
+            if r not in d.keys():
+                d[r] =[i]
+            else:
+                d[r].append(i)
+        return d.values()
