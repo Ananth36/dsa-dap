@@ -1,0 +1,27 @@
+class Solution {
+public:
+    string srted(string s){
+        sort(s.begin(),s.end());
+        return s;
+    }
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string,vector<string>> rec;
+        for(int i = 0;i<strs.size();i++){
+            string s = srted(strs[i]);
+            if(rec.find(s)!=rec.end()){
+                rec[s].push_back(strs[i]);
+            }
+            else{
+                vector<string> a;
+                a.push_back(strs[i]);
+                rec[s] = a;
+            }
+        }
+        vector<vector<string>> res;
+        for(auto &i: rec){
+            res.push_back(i.second);
+        }
+        return res;
+
+    }
+};
